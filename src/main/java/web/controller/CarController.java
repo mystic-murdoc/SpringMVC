@@ -3,22 +3,24 @@ package web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import web.service.CarServiceImpl;
+import web.service.CarService;
 
 @Controller
+@RequestMapping("/cars")
 public class CarController {
 
-    private final CarServiceImpl service;
+    private final CarService carService;
 
-    public CarController(CarServiceImpl service) {
-        this.service = service;
+    public CarController(CarService carService) {
+        this.carService = carService;
     }
 
-    @GetMapping(value = "cars")
+    @GetMapping
     public String printCars(@RequestParam(value = "count", required = false, defaultValue = "5")
             Integer count, Model model) {
-        model.addAttribute("cars", service.getCars(count));
+        model.addAttribute("cars", carService.getCars(count));
         return "cars";
     }
 }
